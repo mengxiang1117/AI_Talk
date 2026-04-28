@@ -1,0 +1,25 @@
+# AI_Talk 模型配置
+# 支持配置多个 OpenAI 兼容格式的大模型
+
+llm_models:
+  - name: "默认模型"
+    base_url: "https://apis.iflow.cn/v1"
+    api_key: "XXXX"
+    model_name: "qwen3-max"
+
+  # - name: "本地模型"
+  #   base_url: "http://localhost:11434/v1"
+  #   api_key: "ollama"
+  #   model_name: "qwen2.5"
+
+  # - name: "DeepSeek"
+  #   base_url: "https://api.deepseek.com/v1"
+  #   api_key: "your-deepseek-key"
+  #   model_name: "deepseek-chat"
+
+# 视觉模型（图片识别，OpenAI 兼容格式）
+vision_model:
+  name: "视觉识别模型"
+  base_url: "https://apis.iflow.cn/v1"
+  api_key: "XXX"
+  model_name: "qwen3-vl-plus"

@@ -1,0 +1,1180 @@
+/* ========================================
+   AI_Talk - Emo时刻风格
+   温柔治愈，雨天心情
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=ZCOOL+XiaoWei&display=swap');
+
+:root {
+    --bg-primary: #1a1a2e;
+    --bg-secondary: #16213e;
+    --bg-tertiary: #0f3460;
+    --accent-blue: #667eea;
+    --accent-purple: #764ba2;
+    --accent-teal: #4a90a4;
+    --accent-soft: #a8b4f5;
+    --text-primary: #e8e8f0;
+    --text-secondary: #a0a0c0;
+    --text-muted: #6b6b8a;
+    --border-dark: #2a2a4e;
+    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-soft-sm: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --transition-soft: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Serif SC', -apple-system, BlinkMacSystemFont, serif;
+    background: var(--bg-primary);
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text-primary);
+    position: relative;
+}
+
+/* 雨滴背景 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ========================================
+   Layout & Container
+   ======================================== */
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    padding: 20px;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Home link */
+.home-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 18px;
+    font-weight: 300;
+    margin-right: 12px;
+    transition: all 0.3s var(--transition-soft);
+}
+
+.home-link:hover {
+    background: rgba(255,255,255,0.15);
+    color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+/* Style badge */
+.style-badge {
+    margin-left: auto;
+    padding: 5px 14px;
+    background: rgba(102, 126, 234, 0.2);
+    border: 1px solid rgba(168, 180, 245, 0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--accent-soft);
+    letter-spacing: 1px;
+}
+
+/* ========================================
+   Sidebar - Left Panel
+   ======================================== */
+
+.sidebar {
+    width: 320px;
+    background: linear-gradient(180deg, rgba(22, 33, 62, 0.95) 0%, rgba(15, 52, 96, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+}
+
+.sidebar-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-header h1 {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+}
+
+/* ========================================
+   Navigation Tabs
+   ======================================== */
+
+.nav-tabs {
+    display: flex;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: transparent;
+    padding: 8px 12px;
+}
+
+.nav-tab {
+    flex: 1;
+    padding: 12px 10px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    transition: all 0.3s var(--transition-soft);
+    border-radius: var(--radius-md);
+}
+
+.nav-tab:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-tab.active {
+    color: var(--accent-soft);
+    background: rgba(102, 126, 234, 0.15);
+}
+
+.sidebar-content {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    min-height: 0;
+    padding: 16px;
+}
+
+/* Custom Scrollbar */
+.sidebar-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 3px;
+}
+
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.5);
+}
+
+.panel {
+    display: none;
+}
+
+.panel.active {
+    display: block;
+    animation: fadeIn 0.4s var(--transition-soft);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-purple) 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    transition: all 0.3s var(--transition-soft);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 400;
+    transition: all 0.3s var(--transition-soft);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-icon {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    line-height: 1;
+    padding: 10px 14px;
+    border-radius: var(--radius-md);
+    transition: all 0.3s var(--transition-soft);
+}
+
+.btn-icon:hover {
+    background: rgba(102, 126, 234, 0.2);
+    color: var(--accent-soft);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* ========================================
+   Character List
+   ======================================== */
+
+.character-list {
+    margin-top: 16px;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.character-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.character-list::-webkit-scrollbar-thumb {
+    background: rgba(118, 75, 162, 0.3);
+    border-radius: 3px;
+}
+
+.character-item {
+    padding: 16px 18px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: all 0.3s var(--transition-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.character-item:hover {
+    background: rgba(102, 126, 234, 0.1);
+    border-color: rgba(102, 126, 234, 0.2);
+    transform: translateY(-2px);
+}
+
+.character-item .name {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.character-item .actions {
+    display: flex;
+    gap: 6px;
+}
+
+.character-item .action-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s var(--transition-soft);
+    line-height: 1;
+}
+
+.character-item .action-btn:hover {
+    background: rgba(102, 126, 234, 0.2);
+    color: var(--accent-soft);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.character-item .action-btn.delete:hover {
+    background: rgba(255, 100, 100, 0.2);
+    color: #ff8888;
+    border-color: rgba(255, 100, 100, 0.3);
+}
+
+/* ========================================
+   Model Tags
+   ======================================== */
+
+.model-tag {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 10px;
+    font-weight: 400;
+    background: rgba(74, 144, 164, 0.2);
+    color: var(--accent-teal);
+    padding: 3px 10px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(74, 144, 164, 0.3);
+    margin-left: 10px;
+    display: inline-block;
+}
+
+/* ========================================
+   Group List
+   ======================================== */
+
+.group-list {
+    margin-top: 16px;
+    max-height: calc(100vh - 260px);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.group-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.group-list::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 3px;
+}
+
+.group-item {
+    padding: 16px 18px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.3s var(--transition-soft);
+}
+
+.group-item:hover {
+    transform: translateY(-2px);
+    border-color: rgba(102, 126, 234, 0.2);
+}
+
+.group-name {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-weight: 400;
+    font-size: 15px;
+    color: var(--text-primary);
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.group-name:hover {
+    color: var(--accent-soft);
+}
+
+.group-characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.group-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.group-actions .action-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    color: var(--text-secondary);
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: all 0.3s var(--transition-soft);
+}
+
+.group-actions .action-btn:hover {
+    background: rgba(255, 100, 100, 0.2);
+    color: #ff8888;
+    border-color: rgba(255, 100, 100, 0.3);
+}
+
+.create-group-btn {
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* ========================================
+   Chat Type Tabs
+   ======================================== */
+
+.chat-type-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.chat-type-tab {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    transition: all 0.3s var(--transition-soft);
+}
+
+.chat-type-tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.chat-type-tab.active {
+    background: rgba(102, 126, 234, 0.15);
+    color: var(--accent-soft);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+/* ========================================
+   Chat List
+   ======================================== */
+
+.chat-list {
+    max-height: calc(100vh - 320px);
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.chat-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-list::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.3);
+    border-radius: 3px;
+}
+
+.chat-item {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    cursor: pointer;
+    transition: all 0.3s var(--transition-soft);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    position: relative;
+}
+
+.chat-item:hover {
+    background: rgba(102, 126, 234, 0.08);
+    border-color: rgba(102, 126, 234, 0.15);
+    transform: translateY(-2px);
+}
+
+.chat-item .chat-name {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.chat-item .chat-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.chat-item .chat-preview {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 1.6;
+}
+
+.chat-characters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.chat-char-tag {
+    display: inline-block;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 10px;
+    font-weight: 400;
+    padding: 4px 10px;
+    background: rgba(74, 144, 164, 0.2);
+    color: var(--accent-teal);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(74, 144, 164, 0.3);
+}
+
+.chat-item .chat-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.chat-item .delete-chat-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    line-height: 1;
+    transition: all 0.3s var(--transition-soft);
+}
+
+.chat-item .delete-chat-btn:hover {
+    background: rgba(255, 100, 100, 0.2);
+    color: #ff8888;
+    border-color: rgba(255, 100, 100, 0.3);
+}
+
+/* ========================================
+   Main Area - Right Panel
+   ======================================== */
+
+.main-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, rgba(22, 33, 62, 0.9) 0%, rgba(26, 26, 46, 0.95) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    overflow: hidden;
+    backdrop-filter: blur(20px);
+}
+
+/* ========================================
+   Welcome Screen
+   ======================================== */
+
+.welcome-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.welcome-screen::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background:
+        radial-gradient(circle at 40% 30%, rgba(102, 126, 234, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 60% 70%, rgba(118, 75, 162, 0.1) 0%, transparent 40%);
+    animation: float 25s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(2%, -2%); }
+}
+
+.welcome-screen h2 {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: 52px;
+    font-weight: 400;
+    letter-spacing: 8px;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+    position: relative;
+    z-index: 1;
+}
+
+.welcome-screen p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
+    max-width: 400px;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+.welcome-decoration {
+    position: absolute;
+    font-size: 48px;
+    opacity: 0.3;
+    animation: gentleFloat 6s ease-in-out infinite;
+}
+
+@keyframes gentleFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(3deg); }
+}
+
+/* ========================================
+   Chat Screen
+   ======================================== */
+
+.chat-screen {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.chat-header {
+    padding: 18px 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+.chat-title {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-weight: 400;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+/* ========================================
+   Messages Container
+   ======================================== */
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 28px;
+    background: transparent;
+    min-height: 0;
+    position: relative;
+}
+
+.messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background: rgba(102, 126, 234, 0.25);
+    border-radius: 4px;
+}
+
+.messages-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 126, 234, 0.4);
+}
+
+/* ========================================
+   Messages
+   ======================================== */
+
+.message {
+    margin-bottom: 28px;
+    max-width: 580px;
+    width: fit-content;
+    position: relative;
+    z-index: 1;
+}
+
+.message.user {
+    margin-left: auto;
+}
+
+.message .sender {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.message.user .sender {
+    text-align: right;
+}
+
+.message .bubble {
+    padding: 16px 20px;
+    border-radius: var(--radius-md);
+    line-height: 1.8;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    font-size: 15px;
+    position: relative;
+}
+
+.message.ai .bubble {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-top-left-radius: 4px;
+}
+
+.message.user .bubble {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+    color: var(--text-primary);
+    border: 1px solid rgba(168, 180, 245, 0.2);
+    border-top-right-radius: 4px;
+}
+
+/* ========================================
+   Input Area
+   ======================================== */
+
+.input-area {
+    padding: 20px 28px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.input-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-row {
+    display: flex;
+    gap: 16px;
+    align-items: flex-end;
+}
+
+.input-area textarea {
+    flex: 1;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    padding: 14px 18px;
+    font-size: 15px;
+    resize: none;
+    height: 56px;
+    line-height: 1.7;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    font-family: 'Noto Serif SC', serif;
+    transition: all 0.3s var(--transition-soft);
+}
+
+.input-area textarea:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.input-area textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.input-area .btn-primary {
+    align-self: flex-end;
+    padding: 14px 28px;
+    font-size: 14px;
+}
+
+/* ========================================
+   Image Preview
+   ======================================== */
+
+.image-preview {
+    max-width: 140px;
+    max-height: 100px;
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.image-preview-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.image-preview-wrapper .remove-image {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: rgba(255, 100, 100, 0.8);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    transition: all 0.3s ease;
+}
+
+.image-preview-wrapper .remove-image:hover {
+    background: rgba(255, 100, 100, 1);
+    transform: scale(1.1);
+}
+
+/* ========================================
+   Form Elements
+   ======================================== */
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    letter-spacing: 1px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    font-family: 'Noto Serif SC', serif;
+    transition: all 0.3s var(--transition-soft);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(102, 126, 234, 0.4);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: var(--text-muted);
+}
+
+.hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 8px;
+    line-height: 1.6;
+}
+
+/* ========================================
+   Modal
+   ======================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+}
+
+.modal.show {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background: linear-gradient(180deg, rgba(26, 26, 46, 0.98) 0%, rgba(22, 33, 62, 0.98) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    width: 90%;
+    max-width: 560px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--shadow-soft);
+    animation: popIn 0.4s var(--transition-soft);
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+}
+
+.confirm-header {
+    background: linear-gradient(135deg, rgba(255, 150, 150, 0.15) 0%, rgba(255, 100, 100, 0.15) 100%);
+}
+
+.alert-header {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
+}
+
+.modal-header h3 {
+    font-family: 'ZCOOL XiaoWei', serif;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 2px;
+}
+
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+}
+
+.modal-body p {
+    white-space: pre-wrap;
+    line-height: 1.8;
+}
+
+.modal-footer {
+    padding: 20px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+/* ========================================
+   Character Select List
+   ======================================== */
+
+.character-select-list {
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.character-select-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.character-select-list::-webkit-scrollbar-thumb {
+    background: rgba(118, 75, 162, 0.3);
+    border-radius: 3px;
+}
+
+.character-select-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
+    transition: all 0.3s var(--transition-soft);
+}
+
+.character-select-item:hover {
+    background: rgba(102, 126, 234, 0.08);
+    border-color: rgba(102, 126, 234, 0.2);
+}
+
+.character-select-item.selected {
+    background: rgba(102, 126, 234, 0.15);
+    border-color: rgba(102, 126, 234, 0.3);
+}
+
+.character-select-item input {
+    margin-right: 12px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent-blue);
+}
+
+.character-select-item span {
+    font-family: 'Noto Serif SC', serif;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+/* ========================================
+   Toast / Loading Overlay
+   ======================================== */
+
+.toast-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.toast-overlay.show {
+    display: flex;
+}
+
+.toast {
+    background: rgba(22, 33, 62, 0.95);
+    padding: 32px 48px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-width: 200px;
+}
+
+.toast-spinner {
+    width: 44px;
+    height: 44px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--accent-blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.toast-spinner.hidden {
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.toast-message {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+.toast.success {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+}
+
+.toast.success .toast-message {
+    color: var(--accent-soft);
+}
+
+/* ========================================
+   System Message
+   ======================================== */
+
+.message.system-msg {
+    width: 100%;
+    max-width: 100%;
+    text-align: center;
+}
+
+.message.system-msg div {
+    display: inline-block;
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-muted);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-sm);
+    letter-spacing: 1px;
+}

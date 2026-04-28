@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI_Talk - 虚拟角色聊天</title>
+    <link rel="stylesheet" href="/static/css/{{ style }}.css">
+    <style>
+        /* 防止页面闪烁的初始隐藏 */
+        body {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        body.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body onload="document.body.classList.add('loaded')">
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/home" class="home-link" title="返回主页">←</a>
+                <h1>✨ AI_Talk</h1>
+                <span class="style-badge">{{ style_config.name }}</span>
+            </div>
+
+            <nav class="nav-tabs">
+                <button class="nav-tab active" data-tab="characters">🎭 角色</button>
+                <button class="nav-tab" data-tab="groups">👥 群聊</button>
+                <button class="nav-tab" data-tab="chats">💬 记录</button>
+            </nav>
+
+            <div class="sidebar-content">
+                <!-- 角色列表 -->
+                <div id="characters-panel" class="panel active">
+                    <button class="btn-primary create-group-btn" id="create-character-btn">+ 创建新角色</button>
+                    <div class="character-list" id="character-list"></div>
+                </div>
+
+                <!-- 群聊列表 -->
+                <div id="groups-panel" class="panel">
+                    <button class="btn-primary create-group-btn" id="create-group-btn">+ 创建群聊</button>
+                    <div class="group-list" id="group-list"></div>
+                </div>
+
+                <!-- 聊天记录 -->
+                <div id="chats-panel" class="panel">
+                    <div class="chat-type-tabs">
+                        <button class="chat-type-tab active" data-type="single">单聊</button>
+                        <button class="chat-type-tab" data-type="group">群聊</button>
+                    </div>
+                    <div class="chat-list" id="chat-list"></div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-area" id="main-area">
+            <div class="welcome-screen" id="welcome-screen">
+                <span class="welcome-decoration" style="top: 10%; left: 15%;">🎪</span>
+                <span class="welcome-decoration" style="top: 15%; right: 20%; animation-delay: 0.5s;">🎨</span>
+                <span class="welcome-decoration" style="bottom: 20%; left: 20%; animation-delay: 1s;">🚀</span>
+                <span class="welcome-decoration" style="bottom: 15%; right: 15%; animation-delay: 1.5s;">🌟</span>
+
+                <h2>AI_Talk</h2>
+                <p>创建你的专属虚拟角色，开启一段奇妙的对话之旅！</p>
+            </div>
+
+            <div class="chat-screen" id="chat-screen" style="display: none;">
+                <div class="chat-header" id="chat-header">
+                    <span class="chat-title" id="chat-title"></span>
+                    <button class="btn-icon" id="close-chat-btn" title="关闭">✕</button>
+                </div>
+                <div class="messages-container" id="messages-container"></div>
+                <div class="input-area">
+                    <div class="input-toolbar">
+                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                        <button class="btn-icon" id="image-btn" title="上传图片">🖼️</button>
+                        <span id="image-preview-container"></span>
+                    </div>
+                    <div class="input-row">
+                        <textarea id="message-input" placeholder="输入你的消息..."></textarea>
+                        <button class="btn-primary" id="send-btn">发送 →</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 创建/编辑角色模态框 -->
+    <div class="modal" id="character-modal">
+        <div class="modal-content" style="max-width: 620px;">
+            <div class="modal-header">
+                <h3 id="modal-title">🎭 创建角色</h3>
+                <button class="btn-icon modal-close" id="close-modal-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>角色名称</label>
+                    <input type="text" id="character-name" placeholder="给你的角色起个名字...">
+                </div>
+                <div class="form-group">
+                    <label>选择模型</label>
+                    <select id="character-model">
+                        <option value="">-- 默认模型 --</option>
+                    </select>
+                    <p class="hint">在 config.yaml 中配置模型</p>
+                </div>
+                <div class="form-group">
+                    <label>角色人设</label>
+                    <textarea id="character-persona" placeholder="描述角色的背景、性格特点、说话风格等..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>历史记忆</label>
+                    <textarea id="character-memory" placeholder="角色的历史记忆（来自上传文件）..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>上传文件（可选，将替换历史记忆）</label>
+                    <input type="file" id="character-file" accept=".md,.docx,.pdf,.xlsx">
+                    <p class="hint">支持 md, docx, pdf, xlsx 格式</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-btn">取消</button>
+                <button class="btn-primary" id="save-character-btn">保存角色</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 群聊选择模态框 -->
+    <div class="modal" id="group-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>👥 创建群聊</h3>
+                <button class="btn-icon modal-close" id="close-group-modal-btn">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>群聊名称</label>
+                    <input type="text" id="group-name" placeholder="给群聊起个名字...">
+                </div>
+                <div class="form-group">
+                    <label>选择角色（至少2个）</label>
+                    <div class="character-select-list" id="group-character-list"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-group-btn">取消</button>
+                <button class="btn-primary" id="start-group-btn">开始群聊</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 确认对话框 -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content" style="max-width: 420px;">
+            <div class="modal-header confirm-header">
+                <h3>⚠️ 确认操作</h3>
+            </div>
+            <div class="modal-body">
+                <p id="confirm-message" style="margin-bottom: 10px; line-height: 1.7; font-size: 15px;"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="confirm-cancel-btn">取消</button>
+                <button class="btn-primary" id="confirm-ok-btn" style="background: var(--accent-pink);">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示对话框 -->
+    <div class="modal" id="alert-modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <div class="modal-header alert-header">
+                <h3>💡 提示</h3>
+            </div>
+            <div class="modal-body">
+                <p id="alert-message" style="margin-bottom: 10px; line-height: 1.7; font-size: 15px;"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" id="alert-ok-btn">知道了</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示组件 -->
+    <div class="toast-overlay" id="toast-overlay">
+        <div class="toast" id="toast">
+            <div class="toast-spinner" id="toast-spinner"></div>
+            <div class="toast-message" id="toast-message"></div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

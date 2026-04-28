@@ -1,0 +1,460 @@
+/* ========================================
+   AI_Talk - 风格选择主页
+   三种心情，三个世界
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+KuaiLe&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --font-serif: 'Noto Serif SC', serif;
+    --font-display: 'ZCOOL KuaiLe', cursive;
+}
+
+body {
+    font-family: var(--font-serif);
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: #0a0a0f;
+    color: #fff;
+}
+
+/* ========================================
+   Starfield Background
+   ======================================== */
+
+.stars, .stars2, .stars3 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.stars {
+    background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"><circle cx="50" cy="50" r="1" fill="white" opacity="0.8"/><circle cx="150" cy="120" r="1.5" fill="white" opacity="0.6"/><circle cx="250" cy="80" r="1" fill="white" opacity="0.9"/><circle cx="320" cy="200" r="1.2" fill="white" opacity="0.7"/><circle cx="100" cy="280" r="1" fill="white" opacity="0.85"/><circle cx="200" cy="350" r="1.5" fill="white" opacity="0.65"/><circle cx="350" cy="300" r="1" fill="white" opacity="0.9"/></svg>') repeat;
+    animation: animateStars 50s linear infinite;
+    z-index: 0;
+}
+
+.stars2 {
+    background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300"><circle cx="80" cy="40" r="1.3" fill="%23ffb347" opacity="0.7"/><circle cx="180" cy="150" r="1" fill="white" opacity="0.8"/><circle cx="250" cy="220" r="1.4" fill="%23ffb347" opacity="0.6"/><circle cx="40" cy="200" r="1" fill="white" opacity="0.9"/></svg>') repeat;
+    animation: animateStars 100s linear infinite;
+    opacity: 0.5;
+    z-index: 0;
+}
+
+.stars3 {
+    background: transparent url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="250" height="250"><circle cx="125" cy="100" r="2" fill="white" opacity="0.9"/><circle cx="50" cy="180" r="1.5" fill="%2387ceeb" opacity="0.8"/></svg>') repeat;
+    animation: animateStars 150s linear infinite;
+    opacity: 0.3;
+    z-index: 0;
+}
+
+@keyframes animateStars {
+    from { transform: translateY(0); }
+    to { transform: translateY(-400px); }
+}
+
+/* ========================================
+   Home Container
+   ======================================== */
+
+.home-container {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 60px 40px;
+}
+
+/* ========================================
+   Header
+   ======================================== */
+
+.home-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 900;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.title-word {
+    display: inline-block;
+    background: linear-gradient(135deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 5s ease infinite;
+    text-shadow: 0 0 80px rgba(255, 107, 107, 0.3);
+}
+
+.title-word:nth-child(1) { animation-delay: 0s; }
+.title-word:nth-child(2) { animation-delay: 0.3s; }
+.title-word:nth-child(3) { animation-delay: 0.6s; }
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.subtitle {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 4px;
+}
+
+/* ========================================
+   Style Cards Container
+   ======================================== */
+
+.style-cards {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .style-cards {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+    }
+}
+
+/* ========================================
+   Style Card - Base
+   ======================================== */
+
+.style-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-radius: 24px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    min-height: 480px;
+}
+
+.style-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 26px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.style-card:hover {
+    transform: translateY(-12px) scale(1.02);
+}
+
+.style-card:hover::before {
+    opacity: 1;
+}
+
+.card-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.card-content {
+    position: relative;
+    z-index: 1;
+    padding: 40px 32px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-icon {
+    font-size: 64px;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.3));
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.style-card:hover .card-icon {
+    transform: scale(1.2) rotate(10deg);
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.card-desc {
+    font-size: 15px;
+    opacity: 0.8;
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+.card-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: auto;
+}
+
+.tag {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    backdrop-filter: blur(10px);
+}
+
+.card-enter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.4s ease;
+}
+
+.style-card:hover .card-enter {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.card-enter svg {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.style-card:hover .card-enter svg {
+    transform: translateX(8px);
+}
+
+/* ========================================
+   Warm Card - 热情阳光
+   ======================================== */
+
+.warm-card {
+    background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 50%, #feca57 100%);
+    box-shadow: 0 20px 60px rgba(255, 107, 107, 0.4),
+                0 8px 24px rgba(254, 202, 87, 0.3);
+}
+
+.warm-card::before {
+    background: linear-gradient(135deg, #fff, #ff9a56, #ff6b6b);
+}
+
+.warm-card .card-bg {
+    background:
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(254,202,87,0.4) 0%, transparent 50%),
+        linear-gradient(135deg, rgba(255,154,86,0.9) 0%, rgba(255,107,107,0.95) 100%);
+}
+
+.warm-card .card-content {
+    color: #2d1b0e;
+}
+
+.warm-card .tag {
+    background: rgba(45, 27, 14, 0.15);
+    border: 2px solid rgba(45, 27, 14, 0.3);
+}
+
+.warm-card .card-decoration {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    animation: float 4s ease-in-out infinite;
+}
+
+.warm-card .deco-1 {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    right: 10%;
+    animation-delay: 0s;
+}
+
+.warm-card .deco-2 {
+    width: 40px;
+    height: 40px;
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 1s;
+}
+
+.warm-card .deco-3 {
+    width: 60px;
+    height: 60px;
+    bottom: 40%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+/* ========================================
+   Emo Card - 温柔治愈
+   ======================================== */
+
+.emo-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #4a5568 100%);
+    box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4),
+                0 8px 24px rgba(118, 75, 162, 0.3);
+}
+
+.emo-card::before {
+    background: linear-gradient(135deg, #a8b4f5, #667eea, #764ba2);
+}
+
+.emo-card .card-bg {
+    background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1) 0%, transparent 40%),
+        radial-gradient(circle at 70% 70%, rgba(102,126,234,0.3) 0%, transparent 50%),
+        linear-gradient(180deg, #1a1a2e 0%, #2d2d44 50%, #16213e 100%);
+}
+
+.emo-card .card-content {
+    color: #e8e8f0;
+}
+
+.emo-card .tag {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Rain drops */
+.rain-drop {
+    position: absolute;
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, transparent, rgba(174, 194, 224, 0.6));
+    left: var(--left);
+    animation: rainFall 1.5s linear infinite;
+    animation-delay: var(--delay);
+    top: -30px;
+}
+
+@keyframes rainFall {
+    to {
+        transform: translateY(520px);
+    }
+}
+
+/* ========================================
+   Dark Card - 暗黑深渊
+   ======================================== */
+
+.dark-card {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8),
+                0 0 40px rgba(139, 0, 0, 0.3);
+}
+
+.dark-card::before {
+    background: linear-gradient(135deg, #8b0000, #1a1a1a, #0a0a0a);
+}
+
+.dark-card .card-bg {
+    background:
+        radial-gradient(circle at 50% 0%, rgba(139,0,0,0.2) 0%, transparent 50%),
+        radial-gradient(circle at 0% 100%, rgba(80,0,0,0.3) 0%, transparent 40%),
+        linear-gradient(135deg, #050505 0%, #0f0f0f 50%, #0a0a0a 100%);
+}
+
+.dark-card .card-content {
+    color: #888;
+}
+
+.dark-card .tag {
+    background: rgba(139, 0, 0, 0.2);
+    border: 2px solid rgba(139, 0, 0, 0.4);
+    color: #a00;
+}
+
+.dark-card .card-title {
+    background: linear-gradient(135deg, #8b0000, #ff0000, #8b0000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Cracks */
+.crack {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, #400, transparent);
+    opacity: 0.6;
+}
+
+.crack-1 {
+    width: 100%;
+    height: 2px;
+    top: 30%;
+    transform: rotate(-5deg);
+}
+
+.crack-2 {
+    width: 2px;
+    height: 100%;
+    left: 60%;
+    transform: rotate(3deg);
+}
+
+.flicker {
+    position: absolute;
+    inset: 0;
+    background: rgba(139, 0, 0, 0.05);
+    animation: flicker 3s infinite;
+    pointer-events: none;
+}
+
+@keyframes flicker {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.3; }
+    52% { opacity: 0; }
+    54% { opacity: 0.2; }
+    56% { opacity: 0; }
+}
+
+/* ========================================
+   Footer
+   ======================================== */
+
+.home-footer {
+    text-align: center;
+    padding: 40px 0 20px;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    letter-spacing: 2px;
+}
